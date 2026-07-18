@@ -281,3 +281,17 @@ exports.me = async (req, res) => {
     res.status(500).json({ error: 'Error del servidor' });
   }
 };
+
+exports.getCities = async (req, res) => {
+  try {
+    const cities = await City.findAll({
+      where: { active: true },
+      attributes: ['id', 'name', 'department'],
+      order: [['name', 'ASC']],
+    });
+    res.json(cities);
+  } catch (error) {
+    console.error('Error in getCities:', error);
+    res.status(500).json({ error: 'Error del servidor' });
+  }
+};

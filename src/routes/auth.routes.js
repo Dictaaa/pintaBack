@@ -10,5 +10,6 @@ router.post('/register', upload.single('logo'), controller.register);
 router.post('/logout', controller.logout);
 router.get('/me', verifyToken, controller.me);
 router.get('/slug-disponible/:slug', controller.slugDisponible);
+router.get('/cities', controller.getCities);
 
 module.exports = router;

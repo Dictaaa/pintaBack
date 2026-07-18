@@ -21,6 +21,10 @@ Category.init({
     type: DataTypes.INTEGER,
     defaultValue: 0,
   },
+  size_type: {
+  type: DataTypes.STRING(20),
+  defaultValue: 'clothing',
+},
   active: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
