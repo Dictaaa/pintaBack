@@ -50,14 +50,17 @@ User.init(
     tableName: 'users',
     timestamps: false,
     hooks: {
-      beforeCreate: async (user) => {
-        user.password = await bcrypt.hash(user.password, 12);
-      },
-      beforeUpdate: async (user) => {
-        if (user.changed('password'))
-          user.password = await bcrypt.hash(user.password, 12);
-      },
-    },
+  beforeCreate: async (user) => {
+    if (user.password) {
+      user.password = await bcrypt.hash(user.password, 12);
+    }
+  },
+  beforeUpdate: async (user) => {
+    if (user.changed('password') && user.password) {
+      user.password = await bcrypt.hash(user.password, 12);
+    }
+  },
+},
     defaultScope: { attributes: { exclude: ['password'] } },
     scopes: { withPassword: {} },
   }

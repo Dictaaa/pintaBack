@@ -98,6 +98,7 @@ exports.register = async (req, res) => {
       first_name, middle_name, last_name, second_last_name,
       email, password, phone,
       shop_name, slug, city_id,
+      whatsapp, instagram, facebook, tiktok,
     } = req.body;
 
     // ── Validaciones ──
@@ -169,12 +170,13 @@ exports.register = async (req, res) => {
       { transaction: t },
     );
 
-    // ── 2. Tienda (nace en pending — el admin la aprueba) ──
+    // ── 2. Logo → Supabase Storage (antes de crear la tienda) ──
     let logoUrl = null;
     if (req.file) {
       logoUrl = await uploadImage(req.file, `shops/${cleanSlug}`);
     }
- 
+
+    // ── 3. Tienda (nace en pending — el admin la aprueba) ──
     const shop = await Shop.create(
       {
         owner_id: user.id,
@@ -182,6 +184,10 @@ exports.register = async (req, res) => {
         slug: cleanSlug,
         name: shop_name.trim(),
         logo_url: logoUrl,
+        whatsapp: whatsapp || null,
+        instagram: instagram || null,
+        facebook: facebook || null,
+        tiktok: tiktok || null,
         status: 'pending',
       },
       { transaction: t },
